@@ -2,12 +2,12 @@ class MyInfoPage {
 
     selectorsList() {
         const selectors = {
-            myInfoButton: '[href="/web/index.php/pim/viewMyDetails"]',
+           
             firstNameField: "[name='firstName']",
             middleNameField: "[name='middleName']",
             lastNameField: "[name='lastName']",
             genericField: ".oxd-input--active",
-            dateField: ".bi-calendar",
+            dateField: "[placeholder='yyyy-dd-mm']",
             todayButton: ".oxd-date-input-links > .--today",
             dateCloseButton: ".--close",
             saveButton: "[type='submit']",
@@ -21,13 +21,34 @@ class MyInfoPage {
         return selectors
 
     }
-    accessMyInfoPage() {
-        cy.get(this.selectorsList().myInfoButton).click()
+
+    fillPersonalDetails(firstName, middleName, lastName) {
+        cy.get(this.selectorsList().firstNameField).clear().type(firstName)
+        cy.get(this.selectorsList().middleNameField).clear().type(middleName)
+        cy.get(this.selectorsList().lastNameField).clear().type(lastName)
     }
-    writeFields(firstName, middleName, lastName) {
-        cy.get(this.selectorsList().firstNameField).clear().type('NameTest')
-        cy.get(this.selectorsList().middleNameField).clear().type('middleTest')
-        cy.get(this.selectorsList().lastNameField).clear().type('lastTest')
+    fillEmployeeDetails(employeeId, otherId, driveLicenseNumber, expiryDate) {
+        cy.get(this.selectorsList().genericField).eq(3).clear().type(employeeId)
+        cy.get(this.selectorsList().genericField).eq(4).clear().type(otherId)
+        cy.get(this.selectorsList().genericField).eq(5).clear().type(driveLicenseNumber)
+        cy.get(this.selectorsList().dateField).eq(0).clear().type(expiryDate)
+    }
+    saveForm() {
+        cy.get(this.selectorsList().saveButton).eq(0).click({force: true})
+        cy.get('body').should('contain', 'Successfully Updated')
+        cy.get('.oxd-toast-close')
+    }
+
+    fillStatus(birthDate, testField){
+        cy.get(this.selectorsList().comboBoxButtonGeneric).eq(0).click({force: true})
+        cy.get(this.selectorsList().nationChoice).click({force: true})
+        cy.get(this.selectorsList().comboBoxButtonGeneric).eq(1).click({force: true})
+        cy.get(this.selectorsList().marriedChoice).click({force: true})
+        cy.get(this.selectorsList().dateField).eq(1).clear().type(birthDate)
+        cy.get(this.selectorsList().maleFemaleButton).eq(0).click({force: true})
+        cy.get(this.selectorsList().comboBoxButtonGeneric).eq(2).click({force: true})
+        cy.get(this.selectorsList().bloodChoice).click({force: true})
+        cy.get(this.selectorsList().testFieldButton).clear().type(testField)
     }
 }
-return MyInfoPage; 
+export default MyInfoPage
