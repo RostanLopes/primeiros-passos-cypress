@@ -16,7 +16,7 @@ class MyInfoPage {
             nationChoice: ':nth-child(69) > span',
             marriedChoice: ":nth-child(3) > span",
             bloodChoice: ":nth-child(6) > span",
-            testFieldButton: "[options='']"
+            testFieldButton: "[options='']",
         }
         return selectors
 
@@ -34,8 +34,8 @@ class MyInfoPage {
         cy.get(this.selectorsList().dateField).eq(0).clear().type(expiryDate)
     }
     saveForm() {
-        cy.get(this.selectorsList().saveButton).eq(0).click({force: true})
-        cy.get('body').should('contain', 'Successfully Updated')
+        cy.get(this.selectorsList().saveButton).eq(1).click({force: true})
+        cy.get('body').should('contain', 'Successfully Saved')
         cy.get('.oxd-toast-close')
     }
 
